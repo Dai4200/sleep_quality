@@ -467,6 +467,10 @@ class _SecondScreenState extends State<SecondScreen> {
                 SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
+                    widget.person.hoursSlept = hoursSlept;
+                    widget.person.restful = restful;
+                    widget.person.wakeUp = wakeUp;
+                    widget.person.difficulty = difficulty;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -614,6 +618,10 @@ class _ThirdScreenState extends State<ThirdScreen> {
                         },
                       );
                     } else {
+                      widget.person.electronicsAnswer = electronicsAnswer;
+                    widget.person.environmentAnswer = environmentAnswer;
+                    widget.person.consumeAnswer = consumeAnswer;
+                    widget.person.exerciseAnswer = exerciseAnswer;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
