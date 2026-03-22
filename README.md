@@ -12,7 +12,7 @@ Flutter
   - Mental health
 
 - Inspiration
-  - Sleep deprivation is a major issue, especially now with young adults more than ever. As sleep-deprived college students, we can deeply relate to this issue and wanted to come up with a measure to assess our sleep quality. 
+  - Sleep deprivation is a major and impacts young adults more than ever. As sleep-deprived college students, we can deeply relate to this issue and wanted to come up with a measure to assess our sleep quality. 
   
 - What it does
   - Our application assesses users on their sleep quality using a variety of parameters. First, it asks them to answer basic questions about themselves or just their name and age. Afterwards, it prompts them to answer a list of questions from a questionnaire. Using their responses, the application will give the user a sleep quality score and suggest some recommendations to help improve their sleep quality.
