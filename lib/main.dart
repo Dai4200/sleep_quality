@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-List greatMessages = ['Great you got your 8 hours; Can you keep this up? Recommendations: Maintain sleep routines; Keep practicing good sleep hygiene'];
-List mehMessages = ['Could be better; Maybe avoid Red Bull, it gives you wings when you need to rest more Recommendations: Consider relaxing before: Meditation techniques and breathing exercises; Try limiting caffeine/alcohol intake'];
-List dangMessages = [ 'Go back to bed you bozo; Catch some Z’s Recommendations: Start establishing a consistent sleep schedule; Reduce screen time before bed; Consult a healthcare professional if condition persistent'];
-
 class Person {
   //Screen 1
   String name;
@@ -74,14 +70,12 @@ class Person {
     yesBad(dreamAnswer, 5);
     yesBad(disturbanceAnswer, 5);
 
-  //'31-50', '51-65', '66+'
-    if (age == '31-50'){
+    //'31-50', '51-65', '66+'
+    if (age == '31-50') {
       score *= .95;
-    }
-    else if (age == '51-65'){
+    } else if (age == '51-65') {
       score *= .9;
-    }
-    else if (age == '66+'){
+    } else if (age == '66+') {
       score *= .85;
     }
 
@@ -220,14 +214,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 180),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(30),
               child: _buildTextField(nameController, 'Name'),
             ),
-
+            SizedBox(height: 30),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(30),
                   child: Text("Age: ", style: TextStyle(fontSize: 16)),
                 ),
 
@@ -254,17 +248,41 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 180),
             ElevatedButton(
               onPressed: () {
-                Person person = Person(nameController.text, age);
-                print("Name: ");
-                print(person.name);
-                print("Age: ");
-                print(person.age);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SecondScreen(person: person),
-                  ),
-                );
+                if (nameController.text.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Forgot something"),
+                        content: Text(
+                          "Make sure you input your name ",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        icon: Icon(Icons.sentiment_dissatisfied),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // close dialog
+                            },
+                            child: Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  Person person = Person(nameController.text, age);
+                  print("Name: ");
+                  print(person.name);
+                  print("Age: ");
+                  print(person.age);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SecondScreen(person: person),
+                    ),
+                  );
+                }
               },
               child: const Text('Next'),
             ),
@@ -302,18 +320,27 @@ class _SecondScreenState extends State<SecondScreen> {
             Column(
               children: [
                 Text(
-                  'Here\'s a list of questions to assess your sleep quality',
+                  'Here\'s a list of questions to assess your sleep quality. We will give you a score out of 100 at the end. ',
                 ),
                 SizedBox(height: 20),
-
-                Text(
-                  "Sleep Duration",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Sleep Duration",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 4),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: EdgeInsets.all(16),
@@ -343,12 +370,31 @@ class _SecondScreenState extends State<SecondScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  "Sleep Quality (On a scale rating)",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        "Sleep Quality (On a scale rating)",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 20),
-                Text("How restful was your sleep?"),
+                SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text("How restful was your sleep?"),
+                    ),
+                  ],
+                ),
+
                 Slider(
                   value: restful,
                   min: 0,
@@ -361,8 +407,18 @@ class _SecondScreenState extends State<SecondScreen> {
                     });
                   },
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "How many times you wake up during the night?",
+                      ),
+                    ),
+                  ],
+                ),
 
-                Text("How many times you wake up during the night?"),
                 Slider(
                   value: wakeUp,
                   min: 0,
@@ -375,7 +431,17 @@ class _SecondScreenState extends State<SecondScreen> {
                     });
                   },
                 ),
-                Text("How difficult was it for you to fall asleep?"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "How difficult was it for you to fall asleep?",
+                      ),
+                    ),
+                  ],
+                ),
                 Slider(
                   value: difficulty,
                   min: 0,
@@ -705,22 +771,48 @@ class _FinalScreenState extends State<FinalScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(widget.score.toString(), style: Theme.of(context).textTheme.titleLarge)
-                  ]
+                    Text(
+                      widget.score.toString(),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                if (widget.score > 85) ...[
+                  Text('Great you got your 8 hours'),
+                  Text('Can you keep this up?'),
+                  Text(
+                    'Your Quest: Maintain sleep routines; Keep practicing good sleep hygiene',
+                  ),
+                  Image.network(
+                    'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzY0NjhtNTV3aXM0bHF5b3J5ZG84aTV6N3B0M2R6Z2VsNzFxOGhjaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ulBv4BHX2t5TI31i0E/giphy.gif',
+                  ),
+                ] else if (widget.score > 60) ...[
+                  Text("Could be better..."),
+                  Text(
+                    "Maybe avoid Red Bull, it gives you wings when you need to rest more.",
+                  ),
+                  Text(
+                    "Recommendations: Consider relaxing before; Meditation techniques and breathing exercises; Try limiting caffeine/alcohol intake",
                   ),
                   SizedBox(height: 20),
-                  if (widget.score > 85)...[
-                    Text('Great you got your 8 hours'),
-                    Text('Can you keep this up?'), 
-                    Text('Your Quest: Maintain sleep routines; Keep practicing good sleep hygiene'),
-                    Image.network('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzY0NjhtNTV3aXM0bHF5b3J5ZG84aTV6N3B0M2R6Z2VsNzFxOGhjaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ulBv4BHX2t5TI31i0E/giphy.gif')
-                    ]
-                  else if (widget.score > 60)...[
-                    Text("Could be better..."), Text("Maybe avoid Red Bull, it gives you wings when you need to rest more."), Text("Recommendations: Consider relaxing before; Meditation techniques and breathing exercises; Try limiting caffeine/alcohol intake"),
-                    SizedBox(height: 20),
-                    Image.network('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2p3aGI0dXZrb210anp3NW16amxwM3Roa2R4NmIxZnB4NGxyNnNrcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mF4k0YXIHDHzy/giphy.gif')]
-                  else
-                    Image.network('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRoeTZpNzNvcTMxbW9ibGY4N2Uxc2NwYnQ0eXkzeHM5OTZjaGw2MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Enr4bc3JeOOzHLYY8R/giphy.gif')
+                  Image.network(
+                    'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2p3aGI0dXZrb210anp3NW16amxwM3Roa2R4NmIxZnB4NGxyNnNrcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mF4k0YXIHDHzy/giphy.gif',
+                  ),
+                ] else ...[
+                  Text("Go back to bed you bozo. Catch some Z’s."),
+                  Center(
+                    child: Text(
+                      "Recommendations: Start establishing a consistent sleep schedule; Reduce screen time before bed; Consult a healthcare professional if condition persistent",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Image.network(
+                    'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRoeTZpNzNvcTMxbW9ibGY4N2Uxc2NwYnQ0eXkzeHM5OTZjaGw2MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Enr4bc3JeOOzHLYY8R/giphy.gif',
+                    height: 400,
+                  ),
+                ],
               ],
             ),
 
