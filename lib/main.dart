@@ -197,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: .spaceBetween,
           children: [
-            SizedBox(height: 30,),
+            SizedBox(height: 30),
             Text(
               "Helping you achieve better sleep",
               style: TextStyle(
@@ -280,7 +280,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Next'),
             ),
-            SizedBox(height: 30)
+            SizedBox(height: 30),
           ],
         ),
       ),
@@ -315,7 +315,8 @@ class _SecondScreenState extends State<SecondScreen> {
             Column(
               children: [
                 Text(
-                  'Here\'s a list of questions to assess your sleep quality. We will give you a score out of 100 at the end. ',textAlign: TextAlign.center,
+                  'Here\'s a list of questions to assess your sleep quality. We will give you a score out of 100 at the end. ',
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 20),
                 Padding(
@@ -587,14 +588,41 @@ class _ThirdScreenState extends State<ThirdScreen> {
                 SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            FourthScreen(person: widget.person),
-                      ),
-                    );
-                    // later: calculate sleep score
+                    if (electronicsAnswer == null ||
+                        environmentAnswer == null ||
+                        consumeAnswer == null ||
+                        exerciseAnswer == null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Forgot something"),
+                            content: Text(
+                              "Make sure you answer all the questions",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            icon: Icon(Icons.sentiment_dissatisfied),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // close dialog
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              FourthScreen(person: widget.person),
+                        ),
+                      );
+                      // later: calculate sleep score
+                    }
                   },
 
                   child: Text("Next"),
@@ -610,7 +638,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
 
 //THIS IS THE Fourth SCREEN
 class _FourthScreenState extends State<FourthScreen> {
-  String hoursSlept = "< 5";
   Answer? breathingAnswer;
   Answer? dreamAnswer;
   Answer? disturbanceAnswer;
@@ -701,18 +728,40 @@ class _FourthScreenState extends State<FourthScreen> {
                     widget.person.breathingAnswer = breathingAnswer;
                     widget.person.dreamAnswer = dreamAnswer;
                     widget.person.disturbanceAnswer = disturbanceAnswer;
-                    print(widget.person.breathingAnswer);
-                    print(widget.person.dreamAnswer);
-                    print(widget.person.disturbanceAnswer);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FinalScreen(
-                          score: widget.person.calc_sleep_score(),
+                    if (breathingAnswer == null ||
+                        disturbanceAnswer == null ||
+                        dreamAnswer == null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Forgot something"),
+                            content: Text(
+                              "Make sure you answer all the questions",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            icon: Icon(Icons.sentiment_dissatisfied),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // close dialog
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FinalScreen(
+                            score: widget.person.calc_sleep_score(),
+                          ),
                         ),
-                      ),
-                    );
-                    // later: calculate sleep score
+                      );
+                    }
                   },
 
                   child: Text("Next"),
