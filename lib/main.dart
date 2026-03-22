@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//Diego Ascencio, Tony Nguyen, Charlie Pham
 class Person {
   //Screen 1
   String name;
