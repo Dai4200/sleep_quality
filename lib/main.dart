@@ -195,8 +195,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: .center,
+          mainAxisAlignment: .spaceBetween,
           children: [
+            SizedBox(height: 30,),
             Text(
               "Helping you achieve better sleep",
               style: TextStyle(
@@ -212,16 +213,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: const Color.fromARGB(255, 255, 255, 102),
               ),
             ),
-            SizedBox(height: 180),
             Padding(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: _buildTextField(nameController, 'Name'),
             ),
-            SizedBox(height: 30),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(30),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text("Age: ", style: TextStyle(fontSize: 16)),
                 ),
 
@@ -245,7 +244,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            SizedBox(height: 180),
             ElevatedButton(
               onPressed: () {
                 if (nameController.text.isEmpty) {
@@ -272,10 +270,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 } else {
                   Person person = Person(nameController.text, age);
-                  print("Name: ");
-                  print(person.name);
-                  print("Age: ");
-                  print(person.age);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -286,6 +280,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Next'),
             ),
+            SizedBox(height: 30)
           ],
         ),
       ),
@@ -320,7 +315,7 @@ class _SecondScreenState extends State<SecondScreen> {
             Column(
               children: [
                 Text(
-                  'Here\'s a list of questions to assess your sleep quality. We will give you a score out of 100 at the end. ',
+                  'Here\'s a list of questions to assess your sleep quality. We will give you a score out of 100 at the end. ',textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 20),
                 Padding(
@@ -471,15 +466,6 @@ class _SecondScreenState extends State<SecondScreen> {
                 SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    print(widget.person.name);
-                    widget.person.hoursSlept = hoursSlept;
-                    widget.person.restful = restful;
-                    widget.person.wakeUp = wakeUp;
-                    widget.person.difficulty = difficulty;
-                    print(widget.person.hoursSlept);
-                    print(widget.person.restful);
-                    print(widget.person.wakeUp);
-                    print(widget.person.difficulty);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -601,15 +587,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
                 SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    print(widget.person.name);
-                    widget.person.electronicsAnswer = electronicsAnswer;
-                    widget.person.environmentAnswer = environmentAnswer;
-                    widget.person.consumeAnswer = consumeAnswer;
-                    widget.person.exerciseAnswer = exerciseAnswer;
-                    print(widget.person.electronicsAnswer);
-                    print(widget.person.environmentAnswer);
-                    print(widget.person.consumeAnswer);
-                    print(widget.person.exerciseAnswer);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
